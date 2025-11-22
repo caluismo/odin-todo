@@ -25,8 +25,42 @@ const hasProjects = (state) => ({
 
 });
 
-export default function makeProjectManager(projects = []) {
-    const state = {projects : [...projects]}
+const hasActiveProject = (state) => ({
+    setActiveProject(project) {
+        const exists = state.projects.includes(project);
+        if (exists) {state.activeProject = project};
+    },
 
-    return{...hasProjects(state)};
+    setActiveProjectByName(name) {
+        const found = state.projects.find(
+            (project) => project.getName && project.getName() === name
+        );
+        if (found) {
+            state.activeProject = found;
+        }
+    },
+
+    getActiveProject() {
+        return state.activeProject;
+    }, 
+
+    getActiveProjectName() {
+        return state.activeProject?.getName 
+            ? state.activeProject.getName()
+            : null ;
+    }
+
+});
+
+
+export default function makeProjectManager(initialProjects = []) {
+    const state = {
+        projects : [...initialProjects],
+        activeProject: initialProjects[0] ?? null
+    };
+
+    return {
+        ...hasProjects(state), 
+        ...hasActiveProject(state)
+    };
 }
