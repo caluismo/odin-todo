@@ -3,22 +3,44 @@ import "./style.css";
 import makeProjectManager from "./projectManager.js";
 import makeProject from "./project.js";
 import makeTask from "./tasks.js";
+import {initUI} from "./dom.js";
+import { save, load, restoreManager } from "./storage.js";
 
-const manager = makeProjectManager();
-const defaultProject = makeProject("Today"); 
-manager.addProject(defaultProject);
-manager.setActiveProject(defaultProject);
 
-defaultProject.addTask(
-  makeTask({ title: "Test task 1", description: "Demo", priority: "high" })
-);
+// Try to load existing data
+let manager;
 
-defaultProject.addTask(
-  makeTask({ title: "Test task 2", description: "Another Demo", priority: "low" })
-);
+const saved = load();
+
+if (saved) {
+  manager = restoreManager(saved);
+} else {
+  manager = makeProjectManager();
+}
+
+ensureDefaultProject(manager);
+
+function ensureDefaultProject(managerInstance) {
+  if (managerInstance.getProjects().length === 0) {
+    const defaultProject = makeProject("Today");
+    managerInstance.addProject(defaultProject);
+    managerInstance.setActiveProject(defaultProject);
+    return;
+  }
+
+  if (!managerInstance.getActiveProject()) {
+    const firstProject = managerInstance.getProjects()[0];
+    if (firstProject) {
+      managerInstance.setActiveProject(firstProject);
+    }
+  }
+}
 
 
 document.addEventListener("DOMContentLoaded", () => {
+    initUI(manager);
+
+
     console.log("DOM ready. Your data layer is working:");
     console.log("Projects:", manager.getProjects());
     console.log("Active project:", manager.getActiveProjectName());

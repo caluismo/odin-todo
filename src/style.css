@@ -1,51 +1,331 @@
 :root {
-    --padding-s: 10px 25px;;
+  --padding-s: 10px 25px;
+  --surface: #ffffff;
+  --surface-alt: #f4f4f4;
+  --border: #e2e2e2;
+  --text-primary: #111111;
+  --text-muted: #666666;
+  --accent: #111111;
 }
 
 *, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0%;
-    padding: 0%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
   font-family: "Inter", sans-serif;
   min-height: 100vh;
-
+  background: var(--surface-alt);
+  color: var(--text-primary);
   display: grid;
-  grid-template-columns: 250px 1fr;
+  grid-template-columns: 260px 1fr;
   grid-template-rows: auto 1fr;
-  grid-template-areas: 
-  "side header" 
-  "side main";
+  grid-template-areas:
+    "side header"
+    "side main";
 }
 
 h1, h2, h3, .title {
   font-family: "Work Sans", sans-serif;
 }
 
+button {
+  border: none;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease,
+    box-shadow 0.1s ease;
+}
+
+button:hover {
+  background: #000;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+button:focus-visible {
+  outline: 3px solid rgba(0, 0, 0, 0.4);
+  outline-offset: 2px;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
 aside {
-    display: flex;
-    flex-direction: column;
-    grid-area: side;
-    background-color: rgb(50, 50, 50);
-    color: white;
-    padding: var(--padding-s);
-    gap: 1rem;
+  grid-area: side;
+  background: #1d1d1d;
+  color: #fff;
+  padding: var(--padding-s);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.side-proj h1 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+#project-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.project-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.project-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.project-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  padding-top: 1rem;
+  margin-top: 0.25rem;
+}
+
+.project-btn {
+  width: 100%;
+  flex: 1;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.project-btn.is-active {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+.project-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: none;
+}
+
+.project-delete-btn {
+  background: transparent;
+  color: #ff9494;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.project-delete-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
 }
 
 header {
-    grid-area: header;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: rgb(30, 30, 30);
-    color: white;
-    padding: var(--padding-s);
+  grid-area: header;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #111;
+  color: #fff;
+  padding: var(--padding-s);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 main {
-    grid-area: main;
-    background-color: white;
-    color: black;
+  grid-area: main;
+  background: var(--surface);
+  padding: 2.5rem;
+  overflow-y: auto;
+}
+
+#main-content {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.task-panel-header h2 {
+  font-size: 2rem;
+  margin-bottom: 0.25rem;
+}
+
+.task-controls,
+.project-form,
+.task-form {
+  background: var(--surface-alt);
+  padding: 1rem 1.25rem;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.task-controls {
+  background: transparent;
+  border: none;
+  padding: 0;
+  gap: 0.5rem;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.task-card {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 1rem 1.25rem;
+  border: none;
+  border-radius: 18px;
+  background: var(--surface-alt);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  color: inherit;
+}
+
+.task-card:hover {
+  background: #fff;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.12);
+}
+
+.task-card.task-completed {
+  opacity: 0.7;
+}
+
+.task-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.task-chevron {
+  font-size: 0.85rem;
+}
+
+.task-meta {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.task-delete-btn {
+  background: #fee;
+  color: #a30000;
+  border: 1px solid #ffd1d1;
+}
+
+.task-delete-btn:hover {
+  background: #ffd6d6;
+  color: #7a0000;
+}
+
+.task-details {
+  margin-top: 0.65rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.task-details p + p {
+  margin-top: 0.5rem;
+}
+
+.task-status-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  font-weight: 600;
+}
+
+.task-checkbox {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.empty-tasks {
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px dashed var(--border);
+  color: var(--text-muted);
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+input[type="text"],
+input[type="date"],
+textarea,
+select {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.65rem 0.85rem;
+  font: inherit;
+  background: #fff;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #111;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.form-actions button {
+  flex: 1 1 120px;
+  min-width: 0;
+}
+
+.delete-btn {
+  border-radius: 999px;
+}
+
+.form-feedback {
+  font-size: 0.85rem;
+  min-height: 1rem;
+  color: #ffb4b4;
+}
+
+.is-hidden {
+  display: none !important;
 }
